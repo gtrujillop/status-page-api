@@ -1,0 +1,16 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "postgres"
+    environment:
+      - RAILS_ENV=development
+      - DATABASE_URL=postgresql://postgres:gastrupul@postgres:5432/status_page_api_development
+    command: bash -c "bundle config --delete without && bundle && bundle exec rake db:create db:migrate && bundle exec rails s"
+  postgres:
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_PASSWORD=gastrupul
