@@ -4,6 +4,11 @@ ENV RAILS_ENV production
 
 COPY . /var/www
 
+RUN \
+  gem update --system --quiet && \
+  gem install  bundler -v '~> 2.1.4'
+ENV BUNDLER_VERSION 2.1.4
+
 # Install build dependencies
 RUN set -ex &&\
   apt-get update &&\
@@ -67,11 +72,9 @@ RUN set -ex &&\
   chown -R web:web /var/bundle /var/www /data &&\
   # Install gems, precompile assets
   cd /var/www/ &&\
-  find /var/www/docker -type f -name "*.sh" -print0 | xargs -0 chmod +x &&\
-  chown -R web:web /var/www &&\
+  find /var/www/docker -type f -iname "*.sh" -exec chmod +x {} \; && chown -R web:web /var/www &&\
   cd /var/www/ &&\
   su-exec web bundle install --path /var/bundle --deployment --without development test deploy &&\
-  su web -c 'cd /var/www && . /var/www/.env.docker-build && bundle exec rake assets:precompile' &&\
   rm -rf /var/www/tmp/* /var/www/log/* /home/web/.bundle/cache &&\
   # Cleanup
   apt-get clean &&\
