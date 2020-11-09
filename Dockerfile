@@ -75,7 +75,6 @@ RUN set -ex &&\
   find /var/www/docker -type f -iname "*.sh" -exec chmod +x {} \; && chown -R web:web /var/www &&\
   cd /var/www/ &&\
   su-exec web bundle install --path /var/bundle --deployment --without development test deploy &&\
-  rm -rf /var/www/tmp/* /var/www/log/* /home/web/.bundle/cache &&\
   # Cleanup
   apt-get clean &&\
   apt-get remove --purge -y \
@@ -101,7 +100,6 @@ RUN set -ex &&\
   /usr/share/doc/* /etc/fonts /root/.cache /usr/share/fontconfig \
   /usr/share/icons /usr/share/man
 
-ENTRYPOINT ["/var/www/docker/entrypoint.sh"]
 VOLUME /var/www
 WORKDIR /var/www
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+CMD ./docker-entrypoint.sh

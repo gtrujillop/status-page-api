@@ -4,6 +4,7 @@ metadata:
   name: db-migrate
 spec:
   completions: 1
+  backoffLimit: 3
   template:
     metadata:
       name: db-migrate
@@ -11,8 +12,17 @@ spec:
       restartPolicy: Never
       containers:
       - name: db-migrate
-        image: gcr.io/wide-maxim-294214
+        image: gcr.io/wide-maxim-294214/status-page-api:latest
         args: ["bundle", "exec", "rake", "db:create", "db:migrate"]
         env:
         - name: DATABASE_URL
-          value: "postgresql://postgres:gastrupul@10.79.144.3/status-page-db"
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: DATABASE_URL
+        - name: SECRET_KEY_BASE
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: SECRET_KEY_BASE
+
