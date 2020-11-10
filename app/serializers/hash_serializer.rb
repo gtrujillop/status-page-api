@@ -1,9 +1,13 @@
 class HashSerializer
   def self.dump(hash)
-    hash.to_json
+    hash
   end
 
   def self.load(hash)
-    (hash || {}).with_indifferent_access
+    return HashWithIndifferentAccess.new if hash.nil?
+
+    return hash.with_indifferent_access if hash.instance_of? Hash
+
+    hash
   end
 end
