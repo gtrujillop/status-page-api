@@ -9,7 +9,9 @@
 #  type       :enum
 #
 class Type < ApplicationRecord
-  enum status: { company: 'company', service: 'service', app: 'app' }
+  self.inheritance_column = :category_type
+
+  enum type: { company: 'company', service: 'service', app: 'app' }
 
   has_many :sites
 end

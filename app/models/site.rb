@@ -12,6 +12,8 @@
 #  updated_at  :datetime         not null
 #
 class Site < ApplicationRecord
+  self.inheritance_column = :site_type
+  
   belongs_to :type
 
   serialize :status_data, HashSerializer

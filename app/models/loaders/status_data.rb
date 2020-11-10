@@ -9,8 +9,9 @@ module Loaders
 
     def load
       data = get_data(site)
-      site.status = data
+      site.status[:data] = data
       site.save
+      site
     rescue => e
       # TODO
       # Log to a error reporting system
@@ -21,7 +22,8 @@ module Loaders
     private
     
     def get_data(site)
-      RestClient.get(site.url) do |response, request|
+      url = site.status[:url]
+      RestClient.get(url) do |response, request|
         resp = JSON.parse(response)
         case response.code
         when 200
