@@ -8,9 +8,7 @@ services:
       - "postgres"
     environment:
       - RAILS_ENV=development
-      - DATABASE_URL=postgresql://postgres:gastrupul@postgres:5432/status_page_api_development
+      - DATABASE_URL=postgresql://postgres@status_page_api_development
     command: bash -c "bundle config --delete without && bundle && bundle exec rake db:create db:migrate && ./docker-entrypoint.sh"
   postgres:
     image: postgres:12-alpine
-    environment:
-      - POSTGRES_PASSWORD=gastrupul
