@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_10_003347) do
+ActiveRecord::Schema.define(version: 2020_11_10_005328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,7 +23,11 @@ ActiveRecord::Schema.define(version: 2020_11_10_003347) do
     t.jsonb "status_data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["country"], name: "index_sites_on_country"
+    t.index ["name"], name: "index_sites_on_name"
+    t.index ["status_data"], name: "index_sites_on_status_data", using: :gin
     t.index ["type_id"], name: "index_sites_on_type_id"
+    t.index ["url"], name: "index_sites_on_url"
   end
 
 # Could not dump table "types" because of following StandardError

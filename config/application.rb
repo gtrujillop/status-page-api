@@ -34,5 +34,6 @@ module StatusPageApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.logger = Logger.new(STDOUT)
+    config.autoload_paths += %W(#{config.root}/app/blueprinters)
   end
 end
